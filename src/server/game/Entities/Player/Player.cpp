@@ -27337,7 +27337,7 @@ float Player::GetBlockPercent(uint8 attackerLevel) const
     if (!(blockArmor + armorConstant))
         return 0;
 
-    return std::min(blockArmor / (blockArmor + armorConstant), 0.85f);
+    return 100.0f * std::min(blockArmor / (blockArmor + armorConstant), 0.85f);
 }
 
 void Player::SetCanParry(bool value)
