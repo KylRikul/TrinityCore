@@ -1248,7 +1248,7 @@ void Unit::CalculateSpellDamageTaken(SpellNonMeleeDamage* damageInfo, int32 dama
                 if (blocked)
                 {
                     // double blocked amount if block is critical
-                    uint32 value = victim->GetBlockPercent(GetLevel());
+                    float value = victim->GetBlockPercent(GetLevel());
                     if (victim->IsBlockCritical())
                     {
                         value *= 2; // double blocked percent
@@ -1475,6 +1475,8 @@ void Unit::CalculateMeleeDamage(Unit* victim, CalcDamageInfo* damageInfo, Weapon
                 damageInfo->Blocked *= GetTotalAuraMultiplier(SPELL_AURA_MOD_CRITICAL_BLOCK_AMOUNT);
             }
 
+            // Critical block must not subtract more than the incoming damage.
+            damageInfo->Blocked = std::min(damageInfo->Blocked, damageInfo->Damage);
             damageInfo->OriginalDamage = damageInfo->Damage;
             damageInfo->Damage      -= damageInfo->Blocked;
             damageInfo->CleanDamage += damageInfo->Blocked;
